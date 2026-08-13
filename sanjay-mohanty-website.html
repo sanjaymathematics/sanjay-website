@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dr. Sanjay Kumar Mohanty — VIT Vellore</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:        #0f1e3c;
+      --navy-mid:    #1a2f56;
+      --navy-soft:   #243a66;
+      --gold:        #c9a84c;
+      --gold-light:  #e8c97a;
+      --gold-pale:   #fdf5e0;
+      --cream:       #faf8f3;
+      --cream-mid:   #f2ede2;
+      --text-navy:   #9badc8;
+      --text-body:   #3a4a6b;
+      --border-gold: rgba(201,168,76,0.25);
+      --border-navy: rgba(15,30,60,0.12);
+      --shadow:      0 2px 20px rgba(15,30,60,0.10);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--navy);
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 200;
+      background: var(--navy);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem; height: 56px;
+      border-bottom: 1px solid rgba(201,168,76,0.3);
+    }
+    .nav-brand {
+      font-family: 'DM Serif Display', serif;
+      font-size: 15px; color: var(--gold-light);
+      letter-spacing: 0.03em; cursor: pointer;
+    }
+    .nav-links { display: flex; gap: 0; list-style: none; position: relative; }
+    .nav-item { position: relative; }
+    .nav-links a, .nav-drop-btn {
+      font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-navy); text-decoration: none;
+      padding: 0 1rem; height: 56px; display: flex; align-items: center;
+      background: none; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-drop-btn:hover { color: var(--gold-light); }
+    .nav-links a.active { color: var(--gold-light); }
+    .dropdown {
+      display: none; position: absolute; top: 56px; left: 0;
+      background: var(--navy-mid); min-width: 220px;
+      border: 1px solid rgba(201,168,76,0.2);
+      border-top: 2px solid var(--gold);
+      z-index: 300;
+    }
+    .nav-item:hover .dropdown { display: block; }
+    .dropdown a {
+      display: block; padding: 10px 1.25rem; height: auto;
+      font-size: 11px; color: var(--text-navy);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .dropdown a:hover { color: var(--gold-light); background: rgba(201,168,76,0.08); }
+
+    /* ── EDIT MODE TOGGLE ── */
+    .edit-toggle {
+      font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--navy); background: var(--gold-light);
+      border: none; border-radius: 4px; padding: 6px 14px;
+      cursor: pointer; font-family: 'DM Sans', sans-serif; font-weight: 500;
+      transition: background 0.2s;
+    }
+    .edit-toggle:hover { background: var(--gold); }
+    .edit-toggle.on { background: #2f8f52; color: #fff; }
+    body.edit-mode [contenteditable="true"] {
+      outline: 1px dashed rgba(201,168,76,0.6);
+      outline-offset: 2px;
+      cursor: text;
+    }
+    body.edit-mode [contenteditable="true"]:hover {
+      background: rgba(201,168,76,0.08);
+    }
+    body.edit-mode .nav-links a,
+    body.edit-mode .profile-card,
+    body.edit-mode .footer-links a {
+      pointer-events: none;
+      opacity: 0.55;
+    }
+    body.edit-mode .nav-brand,
+    body.edit-mode .edit-toggle,
+    body.edit-mode .nav-drop-btn {
+      pointer-events: auto;
+      opacity: 1;
+    }
+    .edit-hint {
+      font-size: 10px; color: var(--text-navy); margin-right: 10px;
+      display: none;
+    }
+    body.edit-mode .edit-hint { display: inline; }
+
+    /* ── PAGES ── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--navy);
+      padding: 4.5rem 2.5rem 4rem;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: -80px; right: -80px;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .hero-inner {
+      max-width: 900px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 2.5rem; align-items: start;
+    }
+    .eyebrow {
+      font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem; font-weight: 400;
+    }
+    .hero-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 52px; line-height: 1.05;
+      color: #fff; margin-bottom: 0.6rem;
+    }
+    .hero-name em { font-style: italic; color: var(--gold-light); }
+    .hero-title {
+      font-size: 14px; color: var(--text-navy);
+      line-height: 1.7; margin-bottom: 1.75rem; font-weight: 300;
+    }
+    .contact-row { display: flex; flex-direction: column; gap: 8px; }
+    .contact-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; color: var(--text-navy);
+    }
+    .contact-item a {
+      color: #e8dfc8; text-decoration: none;
+      border-bottom: 0.5px solid rgba(232,201,122,0.35);
+      transition: color 0.2s;
+    }
+    .contact-item a:hover { color: var(--gold-light); }
+    .badge-cluster { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; padding-top: 4px; }
+    .badge {
+      padding: 5px 14px; border-radius: 3px;
+      font-size: 11px; font-weight: 500; white-space: nowrap; letter-spacing: 0.03em;
+    }
+    .b-gold    { background: var(--gold-pale); color: #7a5a10; border: 1px solid rgba(201,168,76,0.35); }
+    .b-outline { background: transparent; color: var(--gold-light); border: 1px solid rgba(201,168,76,0.35); }
+
+    /* ── PAGE HERO (inner pages) ── */
+    .page-hero {
+      background: var(--navy); padding: 3rem 2.5rem 2.5rem;
+      position: relative; overflow: hidden;
+    }
+    .page-hero::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .page-hero-inner { max-width: 900px; margin: 0 auto; }
+    .page-hero h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 38px; color: #fff; margin-bottom: 0.4rem;
+    }
+    .page-hero h2 em { font-style: italic; color: var(--gold-light); }
+    .page-hero p { font-size: 13px; color: var(--text-navy); font-weight: 300; }
+
+    /* ── MAIN ── */
+    main { max-width: 900px; margin: 0 auto; padding: 0 2.5rem; }
+
+    section { padding: 2.5rem 0; border-bottom: 1px solid var(--border-navy); }
+    section:last-of-type { border-bottom: none; }
+
+    .section-label {
+      font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.5rem; font-weight: 500;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-label::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(90deg, var(--border-gold), transparent);
+    }
+
+    /* ── RESEARCH CARDS ── */
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
+    .card {
+      background: #fff; border: 1px solid var(--border-navy);
+      border-radius: 8px; padding: 1rem 1.1rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .card:hover { border-color: var(--border-gold); box-shadow: var(--shadow); }
+    .card-icon {
+      width: 30px; height: 30px; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center; margin-bottom: 10px;
+    }
+    .card-title { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+    .card-desc  { font-size: 11px; color: #6b7a99; line-height: 1.55; font-weight: 300; }
+
+    /* ── TWO-COL ── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+
+    /* ── TIMELINE ── */
+    .timeline { display: flex; flex-direction: column; }
+    .tl-item {
+      display: grid; grid-template-columns: 96px 1fr;
+      gap: 1rem; padding: 0.85rem 0;
+      border-bottom: 1px solid var(--border-navy);
+    }
+    .tl-item:last-child { border-bottom: none; }
+    .tl-year { font-size: 10px; color: #9badc8; font-weight: 400; padding-top: 2px; line-height: 1.5; }
+    .tl-role  { font-size: 13px; font-weight: 500; margin-bottom: 2px; }
+    .tl-org   { font-size: 11px; color: #6b7a99; font-weight: 300; line-height: 1.4; }
+
+    /* ── QUAL GRID ── */
+    .qual-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .qual-item {
+      background: var(--cream-mid); border: 1px solid var(--border-navy);
+      border-radius: 6px; padding: 10px 12px;
+    }
+    .qual-item.full { grid-column: 1/-1; }
+    .qual-name   { font-size: 12px; font-weight: 500; margin-bottom: 2px; }
+    .qual-detail { font-size: 11px; color: #6b7a99; font-weight: 300; }
+
+    /* ── GRANTS ── */
+    .grant-list { display: flex; flex-direction: column; gap: 14px; }
+    .grant-card {
+      background: #fff; border: 1px solid var(--border-navy);
+      border-left: 3px solid var(--gold); border-radius: 0 8px 8px 0;
+      padding: 1.1rem 1.25rem;
+      transition: box-shadow 0.2s;
+    }
+    .grant-card:hover { box-shadow: var(--shadow); }
+    .grant-title { font-size: 14px; font-weight: 500; margin-bottom: 10px; line-height: 1.4; }
+    .grant-meta { display: flex; flex-wrap: wrap; gap: 8px; }
+    .grant-tag {
+      font-size: 11px; padding: 3px 10px; border-radius: 3px;
+      font-weight: 400;
+    }
+    .gt-role   { background: #eaf0fa; color: #1a3a7a; }
+    .gt-agency { background: var(--gold-pale); color: #7a5a10; }
+    .gt-amount { background: #edf6f0; color: #1a5a30; }
+    .gt-dur    { background: var(--cream-mid); color: #4a5a7a; border: 1px solid var(--border-navy); }
+
+    /* ── PATENTS ── */
+    .patent-list { display: flex; flex-direction: column; gap: 14px; }
+    .patent-card {
+      background: #fff; border: 1px solid var(--border-navy);
+      border-radius: 8px; padding: 1.1rem 1.25rem;
+      counter-increment: patent-counter;
+      transition: box-shadow 0.2s;
+    }
+    .patent-card:hover { box-shadow: var(--shadow); }
+    .patent-title { font-size: 13px; font-weight: 500; margin-bottom: 6px; line-height: 1.5; }
+    .patent-meta  { font-size: 11px; color: #6b7a99; font-weight: 300; }
+    .patent-num   {
+      display: inline-block; font-size: 10px; font-weight: 500;
+      background: var(--gold-pale); color: #7a5a10;
+      border: 1px solid rgba(201,168,76,0.3); border-radius: 3px;
+      padding: 2px 8px; margin-top: 6px; letter-spacing: 0.03em;
+    }
+
+    /* ── SCHOLARS ── */
+    .scholar-list { display: flex; flex-direction: column; gap: 10px; }
+    .scholar-item {
+      display: flex; align-items: start; gap: 12px;
+      background: #fff; border: 1px solid var(--border-navy);
+      border-radius: 8px; padding: 1rem 1.25rem;
+      transition: box-shadow 0.2s;
+    }
+    .scholar-item:hover { box-shadow: var(--shadow); }
+    .scholar-num {
+      min-width: 26px; height: 26px; border-radius: 50%;
+      background: var(--navy); color: var(--gold-light);
+      font-size: 11px; font-weight: 500;
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 1px; flex-shrink: 0;
+    }
+    .scholar-name { font-size: 13px; font-weight: 500; margin-bottom: 3px; }
+    .scholar-topic { font-size: 12px; color: #6b7a99; font-weight: 300; line-height: 1.5; }
+    .scholar-status {
+      display: inline-block; font-size: 10px; margin-top: 5px;
+      padding: 2px 8px; border-radius: 3px; font-weight: 500;
+    }
+    .s-ongoing   { background: #edf6f0; color: #1a5a30; }
+    .s-submitted { background: #eaf0fa; color: #1a3a7a; }
+
+    /* ── COLLABORATORS ── */
+    .collab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; }
+    .collab-card {
+      background: #fff; border: 1px solid var(--border-navy);
+      border-radius: 8px; padding: 1rem 1.25rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .collab-card:hover { border-color: var(--border-gold); box-shadow: var(--shadow); }
+    .collab-name { font-size: 13px; font-weight: 500; margin-bottom: 3px; }
+    .collab-inst { font-size: 11px; color: #6b7a99; font-weight: 300; }
+
+    /* ── PROFILE LINKS ── */
+    .profile-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+    .profile-card {
+      background: #fff; border: 1px solid var(--border-navy);
+      border-radius: 8px; padding: 1.25rem;
+      text-decoration: none; color: inherit;
+      display: flex; align-items: center; gap: 12px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .profile-card:hover { border-color: var(--border-gold); box-shadow: var(--shadow); }
+    .profile-icon {
+      width: 36px; height: 36px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .profile-name  { font-size: 13px; font-weight: 500; margin-bottom: 2px; }
+    .profile-url   { font-size: 10px; color: #6b7a99; font-weight: 300; word-break: break-all; }
+
+    /* ── PUBLICATIONS MENU ── */
+    .pub-menu { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 2rem; }
+    .pub-tab {
+      padding: 6px 16px; border-radius: 4px; font-size: 12px; font-weight: 500;
+      border: 1px solid var(--border-navy); background: #fff;
+      cursor: pointer; transition: all 0.2s; color: var(--navy);
+    }
+    .pub-tab:hover, .pub-tab.active {
+      background: var(--navy); color: var(--gold-light);
+      border-color: var(--navy);
+    }
+    .pub-panel { display: none; }
+    .pub-panel.active { display: block; }
+    .pub-note {
+      font-size: 13px; color: var(--text-body); line-height: 1.8;
+      font-weight: 300; font-style: italic;
+      padding: 1.5rem; background: var(--cream-mid);
+      border-left: 3px solid var(--gold); border-radius: 0 8px 8px 0;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy);
+      border-top: 1px solid rgba(201,168,76,0.2);
+      padding: 1.5rem 2.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-left { font-size: 11px; color: var(--text-navy); }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a {
+      font-size: 11px; color: var(--text-navy);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--gold-light); }
+
+    @media (max-width: 680px) {
+      .hero-inner  { grid-template-columns: 1fr; }
+      .badge-cluster { align-items: flex-start; }
+      .two-col     { grid-template-columns: 1fr; gap: 0; }
+      .qual-grid   { grid-template-columns: 1fr; }
+      .qual-item.full { grid-column: auto; }
+      footer       { flex-direction: column; gap: 1rem; text-align: center; }
+      nav          { padding: 0 1rem; }
+      .nav-links a, .nav-drop-btn { padding: 0 0.6rem; font-size: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <span class="nav-brand" onclick="showPage('home')">Dr. Sanjay Kumar Mohanty</span>
+  <ul class="nav-links">
+    <li class="nav-item"><a href="#" onclick="showPage('home');return false;">Home</a></li>
+    <li class="nav-item">
+      <button class="nav-drop-btn">Publications ▾</button>
+      <div class="dropdown">
+        <a href="#" onclick="showPage('pub-wave');return false;">Water Wave Mechanics</a>
+        <a href="#" onclick="showPage('pub-bio');return false;">Mathematical Biology</a>
+        <a href="#" onclick="showPage('pub-photonics');return false;">Photonics</a>
+        <a href="#" onclick="showPage('pub-yearwise');return false;">Publications Yearwise</a>
+        <a href="#" onclick="showPage('pub-finance');return false;">Financial Mathematics</a>
+      </div>
+    </li>
+    <li class="nav-item"><a href="#" onclick="showPage('grants');return false;">Sponsored Projects</a></li>
+    <li class="nav-item"><a href="#" onclick="showPage('patents');return false;">Patents</a></li>
+    <li class="nav-item"><a href="#" onclick="showPage('scholars');return false;">People</a></li>
+    <li class="nav-item"><a href="#" onclick="showPage('collaborators');return false;">Collaborators</a></li>
+    <li class="nav-item"><a href="#" onclick="showPage('profiles');return false;">Website</a></li>
+    <li class="nav-item"><a href="#" onclick="return false;">CV ↗</a></li>
+  </ul>
+  <div>
+    <span class="edit-hint">Click any highlighted text to edit</span>
+    <button class="edit-toggle" id="editToggleBtn" onclick="toggleEditMode()">Enable Editing</button>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     PAGE: HOME
+══════════════════════════════════════════ -->
+<div id="page-home" class="page active">
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="eyebrow" contenteditable="true">Applied Mathematics · Fluid Dynamics · Ocean Engineering</div>
+        <h1 class="hero-name" contenteditable="true">Sanjay Kumar<br><em>Mohanty</em></h1>
+        <p class="hero-title" contenteditable="true">
+          Assistant Professor, Department of Mathematics<br>
+          Vellore Institute of Technology (VIT), Vellore, India
+        </p>
+        <div class="contact-row">
+          <div class="contact-item">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+              <path d="M2 4l6 4 6-4M2 4h12v9H2V4z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <a href="mailto:sanjaymath@gmail.com" contenteditable="true">sanjaymath@gmail.com</a>
+            <span style="color:#4a5e80">·</span>
+            <a href="mailto:sanjaykumar.mohanty@vit.ac.in" contenteditable="true">sanjaykumar.mohanty@vit.ac.in</a>
+          </div>
+          <div class="contact-item">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+              <path d="M13 10.5c-1.2 0-2.4-.2-3.5-.6a.5.5 0 0 0-.5.1L7 12a9.5 9.5 0 0 1-3-3l2-2a.5.5 0 0 0 .1-.5C5.7 5.4 5.5 4.2 5.5 3c0-.3-.2-.5-.5-.5H3A.5.5 0 0 0 2.5 3 10.5 10.5 0 0 0 13 13.5a.5.5 0 0 0 .5-.5V11a.5.5 0 0 0-.5-.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+            </svg>
+            <span contenteditable="true">+91-9938942839</span>
+          </div>
+          <div class="contact-item">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+              <path d="M4 2h5l3 3v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+              <path d="M9 2v3h3" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+            </svg>
+            <a href="#" onclick="return false;">Download CV (PDF)</a>
+          </div>
+        </div>
+      </div>
+      <div class="badge-cluster">
+        <span class="badge b-gold" contenteditable="true">PhD · IIT Kharagpur 2014</span>
+        <span class="badge b-outline" contenteditable="true">CSIR-UGC JRF-NET 2009</span>
+        <span class="badge b-outline" contenteditable="true">GATE · AIR 58</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <div class="section-label" contenteditable="true">Research Interests</div>
+      <div class="cards">
+        <div class="card">
+          <div class="card-icon" style="background:#edf6f0">
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M2 12c2-4 4-6 6-4s4 1 6-3" stroke="#1a6640" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="card-title" contenteditable="true">Wave Mechanics</div>
+          <div class="card-desc" contenteditable="true">Wave motion, coastal and offshore structure interaction</div>
+        </div>
+        <div class="card">
+          <div class="card-icon" style="background:#eaf0fa">
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 2C4.7 2 2 4.7 2 8s2.7 6 6 6 6-2.7 6-6-2.7-6-6-6z" stroke="#1a3a7a" stroke-width="1.2"/><path d="M8 5v3l2.5 1.5" stroke="#1a3a7a" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+          <div class="card-title" contenteditable="true">Fluid Dynamics</div>
+          <div class="card-desc" contenteditable="true">Journal of Fluid Mechanics, Physics of Fluids</div>
+        </div>
+        <div class="card">
+          <div class="card-icon" style="background:#fdf5e0">
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><rect x="2" y="10" width="3" height="4" rx="1" fill="#a07820"/><rect x="6.5" y="6" width="3" height="8" rx="1" fill="#c9a84c"/><rect x="11" y="2" width="3" height="12" rx="1" fill="#e8c97a"/></svg>
+          </div>
+          <div class="card-title" contenteditable="true">Applied Mathematics</div>
+          <div class="card-desc" contenteditable="true">Mathematical modelling, Information sciences</div>
+        </div>
+        <div class="card">
+          <div class="card-icon" style="background:#f5eaf5">
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 2L9.5 6h4l-3.3 2.4 1.3 4L8 10 4.5 12.4l1.3-4L2.5 6h4z" stroke="#6a2a8a" stroke-width="1.2" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="card-title" contenteditable="true">Ocean Engineering</div>
+          <div class="card-desc" contenteditable="true">Applied Ocean Research, offshore and coastal systems</div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="two-col">
+        <div>
+          <div class="section-label" contenteditable="true">Academic Positions</div>
+          <div class="timeline">
+            <div class="tl-item">
+              <div class="tl-year" contenteditable="true">Nov 2018 – Present</div>
+              <div><div class="tl-role" contenteditable="true">Assistant Professor</div><div class="tl-org" contenteditable="true">School of Advanced Sciences, VIT Vellore</div></div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-year" contenteditable="true">May–Jun 2024</div>
+              <div><div class="tl-role" contenteditable="true">Visiting Researcher</div><div class="tl-org" contenteditable="true">University of Newcastle, Australia</div></div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-year" contenteditable="true">Apr 2015 – Nov 2018</div>
+              <div><div class="tl-role" contenteditable="true">Assistant Professor</div><div class="tl-org" contenteditable="true">BITS International Centre, Muscat, Oman</div></div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-year" contenteditable="true">Aug 2014</div>
+              <div><div class="tl-role" contenteditable="true">PhD Awarded</div><div class="tl-org" contenteditable="true">IIT Kharagpur</div></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="section-label" contenteditable="true">Editorial Roles</div>
+          <div class="timeline">
+            <div class="tl-item">
+              <div class="tl-year" contenteditable="true">Jan 2026 – date</div>
+              <div><div class="tl-role" contenteditable="true">Editorial Board Member</div><div class="tl-org" contenteditable="true">International Journal of Mathematics and Mathematical Sciences, Wiley</div></div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-year" contenteditable="true">Jul 2025 – date</div>
+              <div><div class="tl-role" contenteditable="true">Editorial Board Member</div><div class="tl-org" contenteditable="true">Scientific Reports, Nature Group</div></div>
+            </div>
+          </div>
+          <div class="section-label" style="margin-top:2rem" contenteditable="true">Qualifications</div>
+          <div class="qual-grid">
+            <div class="qual-item"><div class="qual-name" contenteditable="true">CSIR-UGC JRF-NET</div><div class="qual-detail" contenteditable="true">2009</div></div>
+            <div class="qual-item"><div class="qual-name" contenteditable="true">GATE</div><div class="qual-detail" contenteditable="true">All India Rank 58</div></div>
+            <div class="qual-item full"><div class="qual-name" contenteditable="true">MSc Mathematics</div><div class="qual-detail" contenteditable="true">Utkal University</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-label" contenteditable="true">Peer Review Activity</div>
+      <p style="font-size:13px;color:#4a5e80;line-height:1.9;font-weight:300;max-width:680px" contenteditable="true">
+        Active reviewer for <em>Journal of Fluid Mechanics</em>, <em>IEEE Transactions on Instrumentation and Measurement</em>,
+        <em>IEEE Transactions on Artificial Intelligence</em>, <em>Wave Motion</em>, <em>Physics of Fluids</em>,
+        <em>Ocean Engineering</em>, <em>Applied Ocean Research</em>, <em>Applied Mathematical Modelling</em>,
+        and <em>Information Sciences</em>, among others.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-left" contenteditable="true">Vellore Institute of Technology · Vellore, India</div>
+    <div class="footer-links">
+      <a href="https://scholar.google.com/citations?user=tfFkx3IAAAAJ&hl=en" target="_blank">Google Scholar</a>
+      <a href="https://www.researchgate.net/profile/Sanjay-Mohanty-4?ev=hdr_xprf" target="_blank">ResearchGate</a>
+      <a href="https://orcid.org/0000-0001-7095-2806" target="_blank">ORCID</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: SPONSORED PROJECTS / GRANTS
+══════════════════════════════════════════ -->
+<div id="page-grants" class="page">
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="eyebrow" contenteditable="true">Research Funding</div>
+      <h2 contenteditable="true">Sponsored <em>Projects</em></h2>
+      <p contenteditable="true">Externally funded research grants and collaborative projects</p>
+    </div>
+  </div>
+  <main>
+    <section>
+      <div class="section-label" contenteditable="true">Active &amp; Completed Grants</div>
+      <div class="grant-list">
+        <div class="grant-card">
+          <div class="grant-title" contenteditable="true">Time-dependent wave packet effect on very large floating structures</div>
+          <div class="grant-meta">
+            <span class="grant-tag gt-role" contenteditable="true">Principal Investigator</span>
+            <span class="grant-tag gt-agency" contenteditable="true">SERB, DST-CRG</span>
+            <span class="grant-tag gt-amount" contenteditable="true">₹21,08,803</span>
+            <span class="grant-tag gt-dur" contenteditable="true">Feb 2022 – May 2025</span>
+          </div>
+        </div>
+        <div class="grant-card">
+          <div class="grant-title" contenteditable="true">Establishment of DST-FIST Funded Advanced Computing Research Lab</div>
+          <div class="grant-meta">
+            <span class="grant-tag gt-role" contenteditable="true">Co-Principal Investigator</span>
+            <span class="grant-tag gt-agency" contenteditable="true">DST-FIST</span>
+            <span class="grant-tag gt-amount" contenteditable="true">₹2,71,00,000</span>
+            <span class="grant-tag gt-dur" contenteditable="true">Mar 2024 – May 2029</span>
+          </div>
+        </div>
+        <div class="grant-card">
+          <div class="grant-title" contenteditable="true">Integration of Breakwater and Wave Energy Devices in the Presence of Current</div>
+          <div class="grant-meta">
+            <span class="grant-tag gt-role" contenteditable="true">Principal Investigator</span>
+            <span class="grant-tag gt-agency" contenteditable="true">VIT International Grant</span>
+            <span class="grant-tag gt-amount" contenteditable="true">₹4,00,000</span>
+            <span class="grant-tag gt-dur" contenteditable="true">March 2024 – February 2026</span>
+          </div>
+        </div>
+        <div class="grant-card">
+          <div class="grant-title" contenteditable="true">Analytical, Numerical and Experimental study of Glioblastoma</div>
+          <div class="grant-meta">
+            <span class="grant-tag gt-role" contenteditable="true">Principal Investigator</span>
+            <span class="grant-tag gt-agency" contenteditable="true">SEED Grant, VIT Vellore</span>
+            <span class="grant-tag gt-amount" contenteditable="true">₹2,50,000</span>
+            <span class="grant-tag gt-dur" contenteditable="true">Apr 2022 – May 2024</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="footer-left" contenteditable="true">Vellore Institute of Technology · Vellore, India</div>
+    <div class="footer-links">
+      <a href="https://scholar.google.com/citations?user=tfFkx3IAAAAJ&hl=en" target="_blank">Google Scholar</a>
+      <a href="https://www.researchgate.net/profile/Sanjay-Mohanty-4?ev=hdr_xprf" target="_blank">ResearchGate</a>
+      <a href="https://orcid.org/0000-0001-7095-2806" target="_blank">ORCID</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: PATENTS
+══════════════════════════════════════════ -->
+<div id="page-patents" class="page">
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="eyebrow" contenteditable="true">Intellectual Property</div>
+      <h2 contenteditable="true"><em>Patents</em></h2>
+      <p contenteditable="true">Filed and published patent applications</p>
+    </div>
+  </div>
+  <main>
+    <section>
+      <div class="section-label" contenteditable="true">Published Patents</div>
+      <div class="patent-list">
+        <div class="patent-card">
+          <div class="patent-title" contenteditable="true">System for Automatically Managing and Optimising Return of an Asset Portfolio</div>
+          <div class="patent-meta" contenteditable="true">Sanjay Kumar Mohanty, Gouranga Mallick, Pradeep Kumar Das</div>
+          <div><span class="patent-num" contenteditable="true">App No: 202441033839 · Published 03-May-2024</span></div>
+        </div>
+        <div class="patent-card">
+          <div class="patent-title" contenteditable="true">System and Method for Detecting Acute Lymphoblastic Leukaemia (ALL) and Non-Acute Lymphoblastic (Non-ALL) in Real-Time</div>
+          <div class="patent-meta" contenteditable="true">Pradeep Kumar Das, Sanjay Kumar Mohanty, Chiranjivi Bharadwaj</div>
+          <div><span class="patent-num" contenteditable="true">App No: 20244103752,5 · Published 13-May-2024</span></div>
+        </div>
+        <div class="patent-card">
+          <div class="patent-title" contenteditable="true">A hybrid quantum classical framework and a method for forecasting stock prices</div>
+          <div class="patent-meta" contenteditable="true">Sanjay Kumar Mohanty, Bahadur Yadav</div>
+          <div><span class="patent-num" contenteditable="true">App No: 202541114225 · Published 5th December-2025</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="footer-left" contenteditable="true">Vellore Institute of Technology · Vellore, India</div>
+    <div class="footer-links">
+      <a href="https://scholar.google.com/citations?user=tfFkx3IAAAAJ&hl=en" target="_blank">Google Scholar</a>
+      <a href="https://www.researchgate.net/profile/Sanjay-Mohanty-4?ev=hdr_xprf" target="_blank">ResearchGate</a>
+      <a href="https://orcid.org/0000-0001-7095-2806" target="_blank">ORCID</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: PEOPLE / SCHOLARS
+══════════════════════════════════════════ -->
+<div id="page-scholars" class="page">
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="eyebrow" contenteditable="true">Research Group</div>
+      <h2 contenteditable="true">Current Research <em>Scholars</em></h2>
+      <p contenteditable="true">PhD students under supervision</p>
+    </div>
+  </div>
+  <main>
+    <section>
+      <div class="section-label" contenteditable="true">PhD Students</div>
+      <div class="scholar-list">
+        <div class="scholar-item">
+          <div class="scholar-num">1</div>
+          <div>
+            <div class="scholar-name" contenteditable="true">Mr. Salman Mohammed</div>
+            <div class="scholar-topic" contenteditable="true">Mathematical Modeling and Deep Learning Paradigm on Brain Tumor Prognosis and Diagnosis</div>
+            <span class="scholar-status s-submitted" contenteditable="true">Submitted August 2025</span>
+          </div>
+        </div>
+        <div class="scholar-item">
+          <div class="scholar-num">2</div>
+          <div>
+            <div class="scholar-name" contenteditable="true">Mr. Bahadur Yadav</div>
+            <div class="scholar-topic" contenteditable="true">Mathematical Modelling and Deep Learning methods for Portfolio Management</div>
+            <span class="scholar-status s-ongoing" contenteditable="true">Ongoing</span>
+          </div>
+        </div>
+        <div class="scholar-item">
+          <div class="scholar-num">3</div>
+          <div>
+            <div class="scholar-name" contenteditable="true">Mr. Gulzar Ali</div>
+            <div class="scholar-topic" contenteditable="true">Mathematical Methods in Photonic Space and Time Crystal · Co-guide: Dr. Chittaranjan Nayak</div>
+            <span class="scholar-status s-ongoing" contenteditable="true">Ongoing</span>
+          </div>
+        </div>
+        <div class="scholar-item">
+          <div class="scholar-num">4</div>
+          <div>
+            <div class="scholar-name" contenteditable="true">Ms. Riya Gupta</div>
+            <div class="scholar-topic" contenteditable="true">Research topic to be updated</div>
+            <span class="scholar-status s-ongoing" contenteditable="true">Ongoing</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="footer-left" contenteditable="true">Vellore Institute of Technology · Vellore, India</div>
+    <div class="footer-links">
+      <a href="https://scholar.google.com/citations?user=tfFkx3IAAAAJ&hl=en" target="_blank">Google Scholar</a>
+      <a href="https://www.researchgate.net/profile/Sanjay-Mohanty-4?ev=hdr_xprf" target="_blank">ResearchGate</a>
+      <a href="https://orcid.org/0000-0001-7095-2806" target="_blank">ORCID</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: COLLABORATORS
+══════════════════════════════════════════ -->
+<div id="page-collaborators" class="page">
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="eyebrow" contenteditable="true">Research Network</div>
+      <h2 contenteditable="true"><em>Collaborators</em></h2>
+      <p contenteditable="true">International and national research collaborators</p>
+    </div>
+  </div>
+  <main>
+    <section>
+      <div class="section-label" contenteditable="true">Research Collaborators</div>
+      <div class="collab-grid">
+        <div class="collab-card">
+          <div class="collab-name" contenteditable="true">Prof. Mike Meylan</div>
+          <div class="collab-inst" contenteditable="true">University of Newcastle, Australia</div>
+        </div>
+        <div class="collab-card">
+          <div class="collab-name" contenteditable="true">Prof. D. Q. Lu</div>
+          <div class="collab-inst" contenteditable="true">Shanghai University</div>
+        </div>
+        <div class="collab-card">
+          <div class="collab-name" contenteditable="true">Prof. S R Manam</div>
+          <div class="collab-inst" contenteditable="true">IIT Madras</div>
+        </div>
+        <div class="collab-card">
+          <div class="collab-name" contenteditable="true">Prof. Swaroop Nandan Bora</div>
+          <div class="collab-inst" contenteditable="true">IIT Guwahati</div>
+        </div>
+        <div class="collab-card">
+          <div class="collab-name" contenteditable="true">Dr. S C Martha</div>
+          <div class="collab-inst" contenteditable="true">IIT Roopar</div>
+        </div>
+        <div class="collab-card">
+          <div class="collab-name" contenteditable="true">Dr. Smruti Ranjan Mohapatra</div>
+          <div class="collab-inst" contenteditable="true">VSSUT Burla</div>
+        </div>
+        <div class="collab-card">
+          <div class="collab-name" contenteditable="true">Dr. Pradeep Kumar Das</div>
+          <div class="collab-inst" contenteditable="true">NIT Warangal</div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="footer-left" contenteditable="true">Vellore Institute of Technology · Vellore, India</div>
+    <div class="footer-links">
+      <a href="https://scholar.google.com/citations?user=tfFkx3IAAAAJ&hl=en" target="_blank">Google Scholar</a>
+      <a href="https://www.researchgate.net/profile/Sanjay-Mohanty-4?ev=hdr_xprf" target="_blank">ResearchGate</a>
+      <a href="https://orcid.org/0000-0001-7095-2806" target="_blank">ORCID</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: RESEARCH PROFILE WEBSITES
+══════════════════════════════════════════ -->
+<div id="page-profiles" class="page">
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="eyebrow" contenteditable="true">Online Presence</div>
+      <h2 contenteditable="true">Research <em>Profiles</em></h2>
+      <p contenteditable="true">Find my work on these academic platforms</p>
+    </div>
+  </div>
+  <main>
+    <section>
+      <div class="section-label" contenteditable="true">Academic Profile Links</div>
+      <div class="profile-grid">
+        <a class="profile-card" href="https://scholar.google.com/citations?user=tfFkx3IAAAAJ&hl=en" target="_blank">
+          <div class="profile-icon" style="background:#eaf0fa">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#1a3a7a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <div class="profile-name" contenteditable="true">Google Scholar</div>
+            <div class="profile-url" contenteditable="true">scholar.google.com</div>
+          </div>
+        </a>
+        <a class="profile-card" href="https://www.researchgate.net/profile/Sanjay-Mohanty-4?ev=hdr_xprf" target="_blank">
+          <div class="profile-icon" style="background:#edf6f0">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#1a5a30" stroke-width="1.5"/><path d="M8 12h8M12 8v8" stroke="#1a5a30" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <div class="profile-name" contenteditable="true">ResearchGate</div>
+            <div class="profile-url" contenteditable="true">researchgate.net/profile/Sanjay-Mohanty-4</div>
+          </div>
+        </a>
+        <a class="profile-card" href="https://orcid.org/0000-0001-7095-2806" target="_blank">
+          <div class="profile-icon" style="background:#edf6f0">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#1a6640" stroke-width="1.5"/><path d="M9 8v8M12 8c2 0 4 1 4 4s-2 4-4 4h-3" stroke="#1a6640" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <div class="profile-name" contenteditable="true">ORCID</div>
+            <div class="profile-url" contenteditable="true">0000-0001-7095-2806</div>
+          </div>
+        </a>
+        <a class="profile-card" href="https://www.scopus.com/authid/detail.uri?authorId=57207622468" target="_blank">
+          <div class="profile-icon" style="background:#fdf5e0">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="#a07820" stroke-width="1.5"/><path d="M7 12h10M7 8h6M7 16h8" stroke="#a07820" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <div class="profile-name" contenteditable="true">Scopus</div>
+            <div class="profile-url" contenteditable="true">Author ID: 57207622468</div>
+          </div>
+        </a>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="footer-left" contenteditable="true">Vellore Institute of Technology · Vellore, India</div>
+    <div class="footer-links">
+      <a href="https://scholar.google.com/citations?user=tfFkx3IAAAAJ&hl=en" target="_blank">Google Scholar</a>
+      <a href="https://www.researchgate.net/profile/Sanjay-Mohanty-4?ev=hdr_xprf" target="_blank">ResearchGate</a>
+      <a href="https://orcid.org/0000-0001-7095-2806" target="_blank">ORCID</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PUBLICATIONS PAGES (shared template)
+══════════════════════════════════════════ -->
+<div id="page-pub-wave" class="page">
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="eyebrow" contenteditable="true">Publications</div>
+      <h2 contenteditable="true">Water Wave <em>Mechanics</em></h2>
+      <p contenteditable="true">Selected publications in water wave theory and coastal engineering</p>
+    </div>
+  </div>
+  <main>
+    <section>
+      <div class="section-label" contenteditable="true">Selected Publications (18)</div>
+      <div class="patent-list">
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Analysis of a Moored Floating Piezoelectric WEC in the Presence of a Wall. <em>European Journal of Mechanics B/Fluids</em>, Vol. 116, Article 204390 (2026). Elsevier.</div><div class="patent-meta" contenteditable="true">Dora, R. R.; Meylan, M.; Mohanty, S. K.*</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Bragg Resonance in a Two-Layer Fluid with the Inclusion of Current and Tension at Both Surface and Interface. <em>Archive of Applied Mechanics</em>, Vol. 95, p. 26 (2025). Springer Nature.</div><div class="patent-meta" contenteditable="true">Aggarwal, A.; Mohanty, S. K.*; Martha, S. C.</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Bragg scattering by an irregular, versatile seabed in the presence of current. <em>Journal of Fluids and Structures</em>, Vol. 125, p. 104059 (2024). Elsevier.</div><div class="patent-meta" contenteditable="true">Khuntia, S.; Mohapatra, S.; Mohanty, S. K.</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Wave trapping by porous breakwater near a wall under the influence of ocean current. <em>Ocean Engineering</em>, Vol. 303, p. 117820 (2024). Elsevier.</div><div class="patent-meta" contenteditable="true">Dora, R. R.; Mondal, R.; Mohanty, S. K.</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Oblique wave scattering by porous structures in the presence of current. <em>Engineering Analysis with Boundary Elements</em>, Vol. 167, p. 105885 (2024). Elsevier.</div><div class="patent-meta" contenteditable="true">Dora, R. R.; Trivedi, K.; Mohanty, S. K.; Koley, S.</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Bragg resonance due to an undulated elastic bottom in the presence of current. <em>The European Physical Journal Special Topics</em>, pp. 1–10 (2024). Springer.</div><div class="patent-meta" contenteditable="true">Dora, R. R.; Mohanty, S. K.</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Wave resonances and the time-dependent capillary gravity wave motion. <em>Wave Motion</em>, Vol. 131, p. 103412 (2024). Elsevier.</div><div class="patent-meta" contenteditable="true">Dora, R. R.; Manam, S. R.; Mohanty, S. K.</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Wave resonances in the presence of current and the frequency and time-domain interconnection. <em>Wave Motion</em>, Vol. 119, p. 103128 (2023). Elsevier.</div><div class="patent-meta" contenteditable="true">Muniyappan, M.; Dora, R. R.; Mohanty, S. K.</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Wave resonances and hydroelastic wave motion. <em>Proceedings of the Royal Society A</em>, Vol. 479, No. 2272, p. 20230105 (2023). The Royal Society.</div><div class="patent-meta" contenteditable="true">Dora, R.; Saha, S.; Lu, D. Q.; Mohanty, S. K.</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">The role of blocking dynamics and current on wave scattering due to finite floating elastic plate. <em>Ocean Engineering</em>, Vol. 282, p. 114985 (2023). Elsevier.</div><div class="patent-meta" contenteditable="true">Muniyappan, M.; Mohanty, S. K.</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Flexural gravity wave resonance in the presence of current. <em>Journal of Waterway, Port, Coastal, and Ocean Engineering</em>, Vol. 148, No. 3, p. 04022003 (2022). ASCE.</div><div class="patent-meta" contenteditable="true">Saha, S.; Mohanty, S. K.; Bora, S. N.</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Time-dependent wave motion with undulated bottom. <em>Acta Mechanica</em>, 232(1), 283–303 (2021). Springer.</div><div class="patent-meta" contenteditable="true">Mohanty, S. K.</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Time dependent wave motion in a permeable bed. <em>Meccanica</em>, 55(7), 1481–1497 (2020). Springer.</div><div class="patent-meta" contenteditable="true">Mohanty, S. K.; Sidharth, M.</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Transient flexural gravity waves in two-layer fluid. <em>Meccanica</em>, 54(3), 491–504 (2019). Springer.</div><div class="patent-meta" contenteditable="true">Mohanty, S. K.</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Transient axi-symmetric disturbances in two-layer fluid. <em>International Journal of Applied and Computational Mathematics</em>, 5(5), Article 125 (2019). Springer.</div><div class="patent-meta" contenteditable="true">Mohanty, S. K.</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Time-dependent capillary-gravity waves in the presence of current. <em>Acta Mechanica</em>, 226(2), 311–330 (2015). Springer.</div><div class="patent-meta" contenteditable="true">Mohanty, S. K.; Bhattacharjee, J.; Sahoo, T.</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Time dependent flexural gravity waves in the presence of current. <em>Journal of Fluids and Structures</em>, 45, 28–49 (2014). Elsevier.</div><div class="patent-meta" contenteditable="true">Mohanty, S. K.; Mondal, R.; Sahoo, T.</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Expansion formulae for wave structure interaction problems in three dimensions. <em>IMA Journal of Applied Mathematics</em>, 78(2), 181–205 (2013). Oxford University Press.</div><div class="patent-meta" contenteditable="true">Mondal, R.; Mohanty, S. K.; Sahoo, T.</div></div>
+      </div>
+      <p class="pub-note" style="margin-top:1.5rem" contenteditable="true">See the full record on <a href="https://scholar.google.com/citations?user=tfFkx3IAAAAJ&hl=en" target="_blank" style="color:var(--gold);border-bottom:1px solid var(--border-gold)">Google Scholar</a>, or the <a href="#" onclick="showPage('pub-yearwise');return false;" style="color:var(--gold);border-bottom:1px solid var(--border-gold)">Publications Yearwise</a> page, or the full <a href="#" onclick="return false;" style="color:var(--gold);border-bottom:1px solid var(--border-gold)">CV</a>.</p>
+    </section>
+  </main>
+  <footer>
+    <div class="footer-left" contenteditable="true">Vellore Institute of Technology · Vellore, India</div>
+    <div class="footer-links">
+      <a href="https://scholar.google.com/citations?user=tfFkx3IAAAAJ&hl=en" target="_blank">Google Scholar</a>
+      <a href="https://www.researchgate.net/profile/Sanjay-Mohanty-4?ev=hdr_xprf" target="_blank">ResearchGate</a>
+      <a href="https://orcid.org/0000-0001-7095-2806" target="_blank">ORCID</a>
+      <a href="#" onclick="return false;">CV</a>
+    </div>
+  </footer>
+</div>
+
+<div id="page-pub-bio" class="page">
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="eyebrow" contenteditable="true">Publications</div>
+      <h2 contenteditable="true">Mathematical <em>Biology</em></h2>
+      <p contenteditable="true">Selected publications in mathematical biology and biomedical modelling</p>
+    </div>
+  </div>
+  <main>
+    <section>
+      <div class="section-label" contenteditable="true">Selected Publications (2)</div>
+      <div class="patent-list">
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Data-Driven Neural Differential Equation Model and Stochastic Dynamics for Glioma Prediction. <em>IEEE Access</em>, Vol. 13, pp. 145211–145222 (2025). IEEE.</div><div class="patent-meta" contenteditable="true">Salman, M.; Mohanty, S. K.*</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">A Systematic Review on Recent Advancements in Deep Learning and Mathematical Modelling for Efficient Detection of Glioblastoma. <em>IEEE Transactions on Instrumentation and Measurement</em>, Vol. 73, p. 2533134 (2024). IEEE.</div><div class="patent-meta" contenteditable="true">Salman, M.; Das, P. K.; Mohanty, S. K.*</div></div>
+      </div>
+      <p class="pub-note" style="margin-top:1.5rem" contenteditable="true">See the full record on <a href="https://scholar.google.com/citations?user=tfFkx3IAAAAJ&hl=en" target="_blank" style="color:var(--gold);border-bottom:1px solid var(--border-gold)">Google Scholar</a>, or the full <a href="#" onclick="return false;" style="color:var(--gold);border-bottom:1px solid var(--border-gold)">CV</a>.</p>
+    </section>
+  </main>
+  <footer>
+    <div class="footer-left" contenteditable="true">Vellore Institute of Technology · Vellore, India</div>
+    <div class="footer-links">
+      <a href="https://scholar.google.com/citations?user=tfFkx3IAAAAJ&hl=en" target="_blank">Google Scholar</a>
+      <a href="https://www.researchgate.net/profile/Sanjay-Mohanty-4?ev=hdr_xprf" target="_blank">ResearchGate</a>
+      <a href="https://orcid.org/0000-0001-7095-2806" target="_blank">ORCID</a>
+      <a href="#" onclick="return false;">CV</a>
+    </div>
+  </footer>
+</div>
+
+<div id="page-pub-photonics" class="page">
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="eyebrow" contenteditable="true">Publications</div>
+      <h2 contenteditable="true"><em>Photonics</em></h2>
+      <p contenteditable="true">Selected publications in photonics and optical systems</p>
+    </div>
+  </div>
+  <main>
+    <section>
+      <div class="section-label" contenteditable="true">Selected Publications (4)</div>
+      <div class="patent-list">
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Polarization-Sensitive Absorption in All-Hyperbolic-Metamaterial Photonic Crystal Heterostructures Containing Graphene Layers. <em>Physics Letters A</em>, Article 132002 (2026). Elsevier.</div><div class="patent-meta" contenteditable="true">Gulzar, A. J.; Mohanty, S. K.; Nayak, C.; Mohankumar, N.; Swain, S. K.</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Magnetically Tunable Angle-Insensitive Multimode Absorption in Graphene Embedded Topological Photonic Heterostructures. <em>Physica B: Condensed Matter</em>, Vol. 707, Article 417157 (2025). Elsevier.</div><div class="patent-meta" contenteditable="true">Ali, G.; Mohanty, S. K.*; Nayak, C.</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Dual-Band Angle-Independent Terahertz Absorption via Coupled Modes in Hyperbolic-Metamaterial-Based Photonic Crystals Integrating Graphene and Gold Layers. <em>physica status solidi (RRL) – Rapid Research Letters</em> (2025).</div><div class="patent-meta" contenteditable="true">Ali, G.; Mohanty, S. K.*; Nayak, C.</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Mode Sensitive Topological Interface State Dual-Mode Absorber in Hyperbolic Metamaterials Based One-Dimensional Photonic Crystals with Graphene and Gold Layer. <em>IEEE Transactions on Nanotechnology</em>, Vol. 25, Article 138 (2025). IEEE.</div><div class="patent-meta" contenteditable="true">Ali, G.; Mohanty, S. K.; Nayak, C.</div></div>
+      </div>
+      <p class="pub-note" style="margin-top:1.5rem" contenteditable="true">See the full record on <a href="https://scholar.google.com/citations?user=tfFkx3IAAAAJ&hl=en" target="_blank" style="color:var(--gold);border-bottom:1px solid var(--border-gold)">Google Scholar</a>, or the full <a href="#" onclick="return false;" style="color:var(--gold);border-bottom:1px solid var(--border-gold)">CV</a>.</p>
+    </section>
+  </main>
+  <footer>
+    <div class="footer-left" contenteditable="true">Vellore Institute of Technology · Vellore, India</div>
+    <div class="footer-links">
+      <a href="https://scholar.google.com/citations?user=tfFkx3IAAAAJ&hl=en" target="_blank">Google Scholar</a>
+      <a href="https://www.researchgate.net/profile/Sanjay-Mohanty-4?ev=hdr_xprf" target="_blank">ResearchGate</a>
+      <a href="https://orcid.org/0000-0001-7095-2806" target="_blank">ORCID</a>
+      <a href="#" onclick="return false;">CV</a>
+    </div>
+  </footer>
+</div>
+
+<div id="page-pub-yearwise" class="page">
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="eyebrow" contenteditable="true">Publications</div>
+      <h2 contenteditable="true">Publications <em>Yearwise</em></h2>
+      <p contenteditable="true">Complete list of publications sorted by year</p>
+    </div>
+  </div>
+  <main>
+    <section>
+      <div class="section-label" contenteditable="true">2026</div>
+      <div class="patent-list">
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Hybrid Ridgelet Deep Neural Networks for Data-Driven Arbitrage Strategies. <em>Proceedings of the Royal Society A</em>, Vol. 482(2341), Article 20251054. Royal Society Publishing.</div><div class="patent-meta" contenteditable="true">Yadav, B.; Mohanty, S. K.*</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Polarization-Sensitive Absorption in All-Hyperbolic-Metamaterial Photonic Crystal Heterostructures Containing Graphene Layers. <em>Physics Letters A</em>, Article 132002. Elsevier.</div><div class="patent-meta" contenteditable="true">Gulzar, A. J.; Mohanty, S. K.; Nayak, C.; Mohankumar, N.; Swain, S. K.</div></div>
+      </div>
+
+      <div class="section-label" style="margin-top:2rem" contenteditable="true">2025</div>
+      <div class="patent-list">
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Analysis of a Moored Floating Piezoelectric WEC in the Presence of a Wall. <em>European Journal of Mechanics B/Fluids</em>, Vol. 116, Article 204390. Elsevier.</div><div class="patent-meta" contenteditable="true">Dora, R. R.; Meylan, M.; Mohanty, S. K.*</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Magnetically Tunable Angle-Insensitive Multimode Absorption in Graphene Embedded Topological Photonic Heterostructures. <em>Physica B: Condensed Matter</em>, Vol. 707, Article 417157. Elsevier.</div><div class="patent-meta" contenteditable="true">Ali, G.; Mohanty, S. K.*; Nayak, C.</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Data-Driven Neural Differential Equation Model and Stochastic Dynamics for Glioma Prediction. <em>IEEE Access</em>, Vol. 13, pp. 145211–145222. IEEE.</div><div class="patent-meta" contenteditable="true">Salman, M.; Mohanty, S. K.*</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Dual-Band Angle-Independent Terahertz Absorption via Coupled Modes in Hyperbolic-Metamaterial-Based Photonic Crystals Integrating Graphene and Gold Layers. <em>physica status solidi (RRL) – Rapid Research Letters</em>.</div><div class="patent-meta" contenteditable="true">Ali, G.; Mohanty, S. K.*; Nayak, C.</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Mode Sensitive Topological Interface State Dual-Mode Absorber in Hyperbolic Metamaterials Based One-Dimensional Photonic Crystals with Graphene and Gold Layer. <em>IEEE Transactions on Nanotechnology</em>, Vol. 25, Article 138. IEEE.</div><div class="patent-meta" contenteditable="true">Ali, G.; Mohanty, S. K.; Nayak, C.</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Bragg Resonance in a Two-Layer Fluid with the Inclusion of Current and Tension at Both Surface and Interface. <em>Archive of Applied Mechanics</em>, Vol. 95, p. 26. Springer Nature.</div><div class="patent-meta" contenteditable="true">Aggarwal, A.; Mohanty, S. K.*; Martha, S. C.</div></div>
+      </div>
+
+      <div class="section-label" style="margin-top:2rem" contenteditable="true">2024</div>
+      <div class="patent-list">
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Bragg scattering by an irregular, versatile seabed in the presence of current. <em>Journal of Fluids and Structures</em>, Vol. 125, p. 104059. Elsevier.</div><div class="patent-meta" contenteditable="true">Khuntia, S.; Mohapatra, S.; Mohanty, S. K.</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Wave trapping by porous breakwater near a wall under the influence of ocean current. <em>Ocean Engineering</em>, Vol. 303, p. 117820. Elsevier.</div><div class="patent-meta" contenteditable="true">Dora, R. R.; Mondal, R.; Mohanty, S. K.</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Oblique wave scattering by porous structures in the presence of current. <em>Engineering Analysis with Boundary Elements</em>, Vol. 167, p. 105885. Elsevier.</div><div class="patent-meta" contenteditable="true">Dora, R. R.; Trivedi, K.; Mohanty, S. K.; Koley, S.</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Bragg resonance due to an undulated elastic bottom in the presence of current. <em>The European Physical Journal Special Topics</em>, pp. 1–10. Springer.</div><div class="patent-meta" contenteditable="true">Dora, R. R.; Mohanty, S. K.</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">A Systematic Review on Recent Advancements in Deep Learning and Mathematical Modelling for Efficient Detection of Glioblastoma. <em>IEEE Transactions on Instrumentation and Measurement</em>, Vol. 73, p. 2533134. IEEE.</div><div class="patent-meta" contenteditable="true">Salman, M.; Das, P. K.; Mohanty, S. K.*</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Wave resonances and the time-dependent capillary gravity wave motion. <em>Wave Motion</em>, Vol. 131, p. 103412. Elsevier.</div><div class="patent-meta" contenteditable="true">Dora, R. R.; Manam, S. R.; Mohanty, S. K.</div></div>
+      </div>
+
+      <div class="section-label" style="margin-top:2rem" contenteditable="true">2023</div>
+      <div class="patent-list">
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Wave resonances in the presence of current and the frequency and time-domain interconnection. <em>Wave Motion</em>, Vol. 119, p. 103128. Elsevier.</div><div class="patent-meta" contenteditable="true">Muniyappan, M.; Dora, R. R.; Mohanty, S. K.</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Wave resonances and hydroelastic wave motion. <em>Proceedings of the Royal Society A</em>, Vol. 479, No. 2272, p. 20230105. The Royal Society.</div><div class="patent-meta" contenteditable="true">Dora, R.; Saha, S.; Lu, D. Q.; Mohanty, S. K.</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">The role of blocking dynamics and current on wave scattering due to finite floating elastic plate. <em>Ocean Engineering</em>, Vol. 282, p. 114985. Elsevier.</div><div class="patent-meta" contenteditable="true">Muniyappan, M.; Mohanty, S. K.</div></div>
+      </div>
+
+      <div class="section-label" style="margin-top:2rem" contenteditable="true">2022</div>
+      <div class="patent-list">
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Flexural gravity wave resonance in the presence of current. <em>Journal of Waterway, Port, Coastal, and Ocean Engineering</em>, Vol. 148, No. 3, p. 04022003. ASCE.</div><div class="patent-meta" contenteditable="true">Saha, S.; Mohanty, S. K.; Bora, S. N.</div></div>
+      </div>
+
+      <div class="section-label" style="margin-top:2rem" contenteditable="true">2021</div>
+      <div class="patent-list">
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Time-dependent wave motion with undulated bottom. <em>Acta Mechanica</em>, 232(1), 283–303. Springer.</div><div class="patent-meta" contenteditable="true">Mohanty, S. K.</div></div>
+      </div>
+
+      <div class="section-label" style="margin-top:2rem" contenteditable="true">2020</div>
+      <div class="patent-list">
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Time dependent wave motion in a permeable bed. <em>Meccanica</em>, 55(7), 1481–1497. Springer.</div><div class="patent-meta" contenteditable="true">Mohanty, S. K.; Sidharth, M.</div></div>
+      </div>
+
+      <div class="section-label" style="margin-top:2rem" contenteditable="true">2019</div>
+      <div class="patent-list">
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Transient flexural gravity waves in two-layer fluid. <em>Meccanica</em>, 54(3), 491–504. Springer.</div><div class="patent-meta" contenteditable="true">Mohanty, S. K.</div></div>
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Transient axi-symmetric disturbances in two-layer fluid. <em>International Journal of Applied and Computational Mathematics</em>, 5(5), Article 125. Springer.</div><div class="patent-meta" contenteditable="true">Mohanty, S. K.</div></div>
+      </div>
+
+      <div class="section-label" style="margin-top:2rem" contenteditable="true">2015</div>
+      <div class="patent-list">
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Time-dependent capillary-gravity waves in the presence of current. <em>Acta Mechanica</em>, 226(2), 311–330. Springer.</div><div class="patent-meta" contenteditable="true">Mohanty, S. K.; Bhattacharjee, J.; Sahoo, T.</div></div>
+      </div>
+
+      <div class="section-label" style="margin-top:2rem" contenteditable="true">2014</div>
+      <div class="patent-list">
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Time dependent flexural gravity waves in the presence of current. <em>Journal of Fluids and Structures</em>, 45, 28–49. Elsevier.</div><div class="patent-meta" contenteditable="true">Mohanty, S. K.; Mondal, R.; Sahoo, T.</div></div>
+      </div>
+
+      <div class="section-label" style="margin-top:2rem" contenteditable="true">2013</div>
+      <div class="patent-list">
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Expansion formulae for wave structure interaction problems in three dimensions. <em>IMA Journal of Applied Mathematics</em>, 78(2), 181–205. Oxford University Press.</div><div class="patent-meta" contenteditable="true">Mondal, R.; Mohanty, S. K.; Sahoo, T.</div></div>
+      </div>
+
+      <p class="pub-note" style="margin-top:1.5rem" contenteditable="true">Full record also available on <a href="https://scholar.google.com/citations?user=tfFkx3IAAAAJ&hl=en" target="_blank" style="color:var(--gold);border-bottom:1px solid var(--border-gold)">Google Scholar</a>, <a href="https://www.researchgate.net/profile/Sanjay-Mohanty-4?ev=hdr_xprf" target="_blank" style="color:var(--gold);border-bottom:1px solid var(--border-gold)">ResearchGate</a>, or the full <a href="#" onclick="return false;" style="color:var(--gold);border-bottom:1px solid var(--border-gold)">CV</a>.</p>
+    </section>
+  </main>
+  <footer>
+    <div class="footer-left" contenteditable="true">Vellore Institute of Technology · Vellore, India</div>
+    <div class="footer-links">
+      <a href="https://scholar.google.com/citations?user=tfFkx3IAAAAJ&hl=en" target="_blank">Google Scholar</a>
+      <a href="https://www.researchgate.net/profile/Sanjay-Mohanty-4?ev=hdr_xprf" target="_blank">ResearchGate</a>
+      <a href="https://orcid.org/0000-0001-7095-2806" target="_blank">ORCID</a>
+      <a href="#" onclick="return false;">CV</a>
+    </div>
+  </footer>
+</div>
+
+<div id="page-pub-finance" class="page">
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="eyebrow" contenteditable="true">Publications</div>
+      <h2 contenteditable="true">Financial <em>Mathematics</em></h2>
+      <p contenteditable="true">Selected publications in financial mathematics and quantitative finance</p>
+    </div>
+  </div>
+  <main>
+    <section>
+      <div class="section-label" contenteditable="true">Selected Publications (1)</div>
+      <div class="patent-list">
+        <div class="patent-card"><div class="patent-title" contenteditable="true">Hybrid Ridgelet Deep Neural Networks for Data-Driven Arbitrage Strategies. <em>Proceedings of the Royal Society A: Mathematical, Physical and Engineering Sciences</em>, Vol. 482(2341), Article 20251054 (2026). Royal Society Publishing.</div><div class="patent-meta" contenteditable="true">Yadav, B.; Mohanty, S. K.*</div></div>
+      </div>
+      <p class="pub-note" style="margin-top:1.5rem" contenteditable="true">See the full record on <a href="https://scholar.google.com/citations?user=tfFkx3IAAAAJ&hl=en" target="_blank" style="color:var(--gold);border-bottom:1px solid var(--border-gold)">Google Scholar</a>, or the full <a href="#" onclick="return false;" style="color:var(--gold);border-bottom:1px solid var(--border-gold)">CV</a>.</p>
+    </section>
+  </main>
+  <footer>
+    <div class="footer-left" contenteditable="true">Vellore Institute of Technology · Vellore, India</div>
+    <div class="footer-links">
+      <a href="https://scholar.google.com/citations?user=tfFkx3IAAAAJ&hl=en" target="_blank">Google Scholar</a>
+      <a href="https://www.researchgate.net/profile/Sanjay-Mohanty-4?ev=hdr_xprf" target="_blank">ResearchGate</a>
+      <a href="https://orcid.org/0000-0001-7095-2806" target="_blank">ORCID</a>
+      <a href="#" onclick="return false;">CV</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const target = document.getElementById('page-' + id);
+    if (target) {
+      target.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  function toggleEditMode() {
+    const body = document.body;
+    const btn = document.getElementById('editToggleBtn');
+    const on = body.classList.toggle('edit-mode');
+    btn.textContent = on ? 'Editing On — Click to Lock' : 'Enable Editing';
+    btn.classList.toggle('on', on);
+  }
+</script>
+
+</body>
+</html>
