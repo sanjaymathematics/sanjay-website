@@ -344,27 +344,6 @@
       text-align: center; margin-top: 6px;
     }
     .gallery-divider { border-top: 1px dashed var(--border-gold); margin: 20px 0; }
-
-    /* ── PUBLICATIONS MENU ── */
-    .pub-menu { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 2rem; }
-    .pub-tab {
-      padding: 6px 16px; border-radius: 4px; font-size: 12px; font-weight: 500;
-      border: 1px solid var(--border-navy); background: #fff;
-      cursor: pointer; transition: all 0.2s; color: var(--navy);
-    }
-    .pub-tab:hover, .pub-tab.active {
-      background: var(--navy); color: var(--gold-light);
-      border-color: var(--navy);
-    }
-    .pub-panel { display: none; }
-    .pub-panel.active { display: block; }
-    .pub-note {
-      font-size: 13px; color: var(--text-body); line-height: 1.8;
-      font-weight: 300; font-style: italic;
-      padding: 1.5rem; background: var(--cream-mid);
-      border-left: 3px solid var(--gold); border-radius: 0 8px 8px 0;
-    }
-    .gallery-divider { border-top: 1px dashed var(--border-gold); margin: 20px 0; }
     /* ── PUBLICATIONS MENU ── */
     .pub-menu { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 2rem; }
     .pub-tab {
@@ -1098,7 +1077,7 @@
       <a href="https://scholar.google.com/citations?user=tfFkx3IAAAAJ&hl=en" target="_blank">Google Scholar</a>
       <a href="https://www.researchgate.net/profile/Sanjay-Mohanty-4?ev=hdr_xprf" target="_blank">ResearchGate</a>
       <a href="https://orcid.org/0000-0001-7095-2806" target="_blank">ORCID</a>
-      <a href="#page-photos">PHOTOS</a>
+      <a href="#" onclick="showPage('photos');return false;">Photos</a>
       </div>
   </footer>
 </div>
